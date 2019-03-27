@@ -29,7 +29,9 @@ class Dashboard extends Admin_Controller
 		$this->data['total_stores'] = $this->model_stores->countTotalStores();
 
 		$user_id = $this->session->userdata('id');
-		$is_admin = ($user_id == 1) ? true :false;
+		$this->data['user_type'] = $this->model_users->getUserGroup($user_id);
+
+		$is_admin = ($this->data['user_type']['id'] == 1) ? true :false;
 
 		$this->data['is_admin'] = $is_admin;
 		$this->render_template('dashboard', $this->data);
