@@ -62,13 +62,14 @@ class Model_orders extends CI_Model
 
 		$count_product = count($this->input->post('product'));
     	for($x = 0; $x < $count_product; $x++) {
+    		$net_profit = ($this->input->post('rate_value')[$x] - $this->input->post('cost_price_value')[$x]) * $this->input->post('qty')[$x];
     		$items = array(
     			'order_id' => $order_id,
     			'product_id' => $this->input->post('product')[$x],
     			'qty' => $this->input->post('qty')[$x],
     			'cost_price' => $this->input->post('cost_price_value')[$x],
     			'rate' => $this->input->post('rate_value')[$x],
-    			'net_profit' => ($this->input->post('rate_value')[$x] - $this->input->post('cost_price_value')[$x])*$this->input->post('qty')[$x],
+    			'net_profit' => $net_profit,
     			'amount' => $this->input->post('amount_value')[$x],
     		);
 
@@ -144,12 +145,14 @@ class Model_orders extends CI_Model
 			// now decrease the product qty
 			$count_product = count($this->input->post('product'));
 	    	for($x = 0; $x < $count_product; $x++) {
+	    		$net_profit = ($this->input->post('rate_value')[$x] - $this->input->post('cost_price_value')[$x]) * $this->input->post('qty')[$x];
 	    		$items = array(
 	    			'order_id' => $id,
 	    			'product_id' => $this->input->post('product')[$x],
 	    			'qty' => $this->input->post('qty')[$x],
 	    			'cost_price' => $this->input->post('cost_price_value')[$x],
 	    			'rate' => $this->input->post('rate_value')[$x],
+	    			'net_profit' => $net_profit,
 	    			'amount' => $this->input->post('amount_value')[$x],
 	    		);
 	    		$this->db->insert('orders_item', $items);
